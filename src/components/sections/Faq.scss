@@ -1,0 +1,88 @@
+.faq {
+  &__grid {
+    display: grid;
+    gap: 2.5rem;
+
+    @include up(lg) {
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 4rem;
+      align-items: start;
+    }
+  }
+
+  &__intro {
+    display: grid;
+    gap: 1.1rem;
+    justify-items: start;
+
+    @include up(lg) {
+      position: sticky;
+      top: calc(var(--header-h) + 2rem);
+    }
+  }
+
+  &__list {
+    border-top: 1px solid var(--line);
+  }
+
+  &__item {
+    border-bottom: 1px solid var(--line);
+  }
+
+  &__q {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    width: 100%;
+    padding-block: 1.35rem;
+    text-align: left;
+    font-size: clamp(1.0625rem, 1.4vw, 1.2rem);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.35;
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    color: var(--ink-2);
+    transition:
+      transform 0.4s $ease-out,
+      color 0.2s ease;
+  }
+
+  // Animates to the content's natural height without measuring it in JS.
+  &__panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.45s $ease-out;
+
+    > div {
+      overflow: hidden;
+    }
+
+    p {
+      padding-bottom: 1.4rem;
+      max-width: 62ch;
+      color: var(--ink-2);
+    }
+  }
+
+  &__item.is-open {
+    .faq__panel {
+      grid-template-rows: 1fr;
+    }
+
+    .faq__icon {
+      transform: rotate(45deg);
+      color: var(--accent-ink);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__panel,
+    &__icon {
+      transition: none;
+    }
+  }
+}

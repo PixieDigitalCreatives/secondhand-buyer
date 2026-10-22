@@ -1,0 +1,56 @@
+.page-hero {
+  position: relative;
+  isolation: isolate;
+  // Slide under the floating nav so the glow reaches the top edge.
+  margin-top: calc(-1 * var(--header-h));
+  padding-top: calc(var(--header-h) + clamp(2rem, 5vw, 4rem));
+  padding-bottom: clamp(4rem, 8vw, 7rem);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(50% 45% at 10% 15%, rgb(194 65 12 / 0.07), transparent 70%),
+      radial-gradient(40% 50% at 90% 0%, rgb(15 23 32 / 0.05), transparent 70%);
+    pointer-events: none;
+  }
+
+  &__grid {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 5rem);
+    align-items: center;
+
+    @include up(lg) {
+      grid-template-columns: 1.05fr 0.95fr;
+    }
+  }
+
+  &__copy {
+    display: grid;
+    gap: 1.4rem;
+    justify-items: start;
+
+    .btn-row {
+      margin-top: 0.75rem;
+    }
+  }
+
+  &__title {
+    font-size: clamp(2.5rem, 4.8vw, 4.1rem);
+    line-height: 1.02;
+    letter-spacing: -0.045em;
+    padding-bottom: 0.06em;
+  }
+
+  &__frame {
+    position: relative;
+    aspect-ratio: 16 / 11;
+    background: var(--surface-2);
+
+    @include up(lg) {
+      aspect-ratio: 5 / 5.4;
+    }
+  }
+}

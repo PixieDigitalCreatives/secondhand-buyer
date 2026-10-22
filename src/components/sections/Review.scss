@@ -1,0 +1,84 @@
+.review {
+  &__grid {
+    display: grid;
+    gap: 3rem;
+    align-items: center;
+
+    @include up(lg) {
+      grid-template-columns: 0.75fr 1.25fr;
+      gap: 5rem;
+    }
+  }
+
+  &__score {
+    display: grid;
+    justify-items: start;
+    gap: 0.6rem;
+  }
+
+  &__google {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--ink-2);
+  }
+
+  &__number {
+    font-size: clamp(5rem, 11vw, 8rem);
+    font-weight: 600;
+    line-height: 0.9;
+    letter-spacing: -0.06em;
+  }
+
+  &__stars {
+    display: flex;
+    gap: 0.15rem;
+    color: #f5a524;
+  }
+
+  .text-link {
+    margin-top: 0.5rem;
+  }
+
+  &__quote {
+    blockquote p {
+      font-size: clamp(1.6rem, 3.2vw, 2.75rem);
+      font-weight: 500;
+      line-height: 1.2;
+      letter-spacing: -0.035em;
+      text-wrap: balance;
+    }
+
+    figcaption {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      margin-top: 2rem;
+      line-height: 1.3;
+
+      strong {
+        display: block;
+        font-weight: 600;
+      }
+
+      span span {
+        font-size: 0.9375rem;
+        color: var(--ink-2);
+      }
+    }
+  }
+
+  &__avatar {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--on-accent);
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+}

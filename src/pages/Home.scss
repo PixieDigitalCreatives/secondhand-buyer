@@ -1,0 +1,260 @@
+// ---------------------------------------------------------------------------
+// "How can we help" bento: two photo tiles and one tinted tile, each one a
+// double-bezel tray (outer shell + concentric inner core).
+// ---------------------------------------------------------------------------
+.help {
+  &__grid {
+    display: grid;
+    gap: 1rem;
+
+    @include up(md) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @include up(lg) {
+      grid-template-columns: 1.25fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      min-height: 680px;
+    }
+  }
+}
+
+.help-card {
+  position: relative;
+  min-height: 320px;
+  padding: var(--bezel);
+  border-radius: var(--radius-shell);
+  background: var(--shell);
+  box-shadow: 0 0 0 1px var(--line);
+
+  &--sell {
+    @include up(md) {
+      grid-column: 1 / -1;
+      min-height: 460px;
+    }
+
+    @include up(lg) {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+    }
+  }
+
+  &__link {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    height: 100%;
+    min-height: calc(320px - 2 * var(--bezel));
+    border-radius: calc(var(--radius-shell) - var(--bezel));
+    color: var(--on-night);
+    background: var(--night);
+    box-shadow: var(--shadow);
+  }
+
+  &--sell &__link {
+    @include up(md) {
+      min-height: calc(460px - 2 * var(--bezel));
+    }
+  }
+
+  &__img {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+
+    @include motion {
+      transition: transform 1.4s var(--ease-premium);
+    }
+  }
+
+  &__link::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, rgb(11 18 24 / 0) 25%, rgb(11 18 24 / 0.86) 100%);
+  }
+
+  &__body {
+    display: grid;
+    gap: 0.6rem;
+    justify-items: start;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+
+    p {
+      max-width: 40ch;
+      color: var(--on-night-2);
+    }
+  }
+
+  &__title {
+    font-size: clamp(1.6rem, 2.6vw, 2.25rem);
+    letter-spacing: -0.04em;
+  }
+
+  // Pill with the arrow in its own orb, like the primary buttons.
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.9rem;
+    padding: 6px 6px 6px 1.1rem;
+    border-radius: var(--radius-pill);
+    background: rgb(255 255 255 / 0.12);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.18);
+    font-weight: 600;
+    transition: background-color 0.5s var(--ease-premium);
+
+    svg {
+      box-sizing: content-box;
+      padding: 7px;
+      border-radius: 50%;
+      background: var(--surface);
+      color: var(--ink);
+
+      @include motion {
+        transition: transform 0.5s var(--ease-premium);
+      }
+    }
+  }
+
+  &__icon {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    margin-bottom: auto;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--on-accent);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.25);
+  }
+
+  @include hover {
+    .help-card__img {
+      transform: scale(1.04);
+    }
+
+    .help-card__cta {
+      background: rgb(255 255 255 / 0.2);
+
+      svg {
+        transform: translateX(3px) rotate(-45deg);
+      }
+    }
+  }
+
+  // Tinted tile, no photo: keeps the bento from being three photos in a row.
+  &--commercial {
+    .help-card__link {
+      align-items: stretch;
+      background: var(--accent-soft);
+      color: var(--ink);
+
+      &::before {
+        content: none;
+      }
+    }
+
+    // Icon at the top, copy at the bottom, to match the photo tiles.
+    .help-card__body {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+
+      p {
+        color: var(--ink-2);
+      }
+    }
+
+    .help-card__cta {
+      background: var(--surface);
+      box-shadow:
+        0 0 0 1px var(--line),
+        var(--shadow-sm);
+      color: var(--ink);
+
+      svg {
+        background: var(--accent);
+        color: var(--on-accent);
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Why Suhan
+// ---------------------------------------------------------------------------
+.why {
+  &__grid {
+    display: grid;
+    gap: clamp(3rem, 6vw, 6rem);
+    align-items: center;
+
+    @include up(lg) {
+      grid-template-columns: 0.9fr 1.1fr;
+    }
+  }
+
+  &__media-core {
+    aspect-ratio: 4 / 5;
+
+    @include down(lg) {
+      aspect-ratio: 16 / 11;
+    }
+  }
+
+  &__copy {
+    display: grid;
+    gap: 2.75rem;
+
+    .section-head {
+      margin-bottom: 0;
+    }
+
+    .lead {
+      margin-top: 1rem;
+    }
+  }
+
+  &__list {
+    display: grid;
+    gap: 2rem;
+
+    @include up(md) {
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem 3rem;
+    }
+  }
+
+  &__item {
+    display: grid;
+    gap: 1rem;
+    align-content: start;
+
+    .h3 {
+      font-size: 1.15rem;
+    }
+
+    .muted {
+      margin-top: 0.35rem;
+    }
+  }
+
+  &__icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--surface);
+    box-shadow:
+      0 0 0 1px var(--line),
+      var(--highlight),
+      var(--shadow-sm);
+    color: var(--accent-ink);
+  }
+}

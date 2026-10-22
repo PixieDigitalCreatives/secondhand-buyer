@@ -1,0 +1,68 @@
+.quote-sec {
+  &__grid {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4.5rem);
+
+    @include up(lg) {
+      grid-template-columns: 1fr minmax(0, 470px);
+      align-items: start;
+    }
+  }
+
+  &__copy {
+    display: grid;
+    gap: 2.5rem;
+
+    .section-head {
+      margin-bottom: 0;
+    }
+
+    .lead {
+      margin-top: 1rem;
+    }
+  }
+
+  &__points {
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--line-2);
+  }
+
+  &__point {
+    display: flex;
+    gap: 1.1rem;
+    padding-block: 1.4rem;
+    border-bottom: 1px solid var(--line-2);
+
+    h3 {
+      font-size: 1.0625rem;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      line-height: 1.3;
+    }
+
+    p {
+      margin-top: 0.3rem;
+      color: var(--ink-2);
+      max-width: 48ch;
+    }
+  }
+
+  &__icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    border-radius: 14px;
+    background: var(--surface);
+    color: var(--accent-ink);
+  }
+
+  &__form {
+    @include up(lg) {
+      position: sticky;
+      top: calc(var(--header-h) + 1.5rem);
+    }
+  }
+}

@@ -1,0 +1,51 @@
+// Floating strip of proof points directly under the hero.
+.trust {
+  position: relative;
+  z-index: 1;
+  margin-top: clamp(-3rem, -4vw, -1.5rem);
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.75rem 1rem;
+    padding: clamp(1.5rem, 3.5vw, 2.25rem) clamp(1.25rem, 3.5vw, 2.75rem);
+
+    @include up(lg) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  &__item {
+    display: grid;
+    gap: 0.35rem;
+
+    @include up(lg) {
+      &:not(:first-child) {
+        padding-left: 2rem;
+        box-shadow: inset 1px 0 0 var(--line);
+      }
+    }
+  }
+
+  &__value {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    font-size: clamp(2.25rem, 4vw, 3.25rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.05em;
+  }
+
+  &__stars {
+    display: inline-flex;
+    gap: 1px;
+    color: #e8930c;
+    transform: translateY(-0.15em);
+  }
+
+  &__label {
+    font-size: 0.9375rem;
+    color: var(--ink-2);
+  }
+}

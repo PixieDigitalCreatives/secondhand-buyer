@@ -1,0 +1,49 @@
+.cta-band-wrap {
+  padding-top: 0;
+}
+
+.cta-band {
+  &__core {
+    display: grid;
+    background:
+      radial-gradient(60% 80% at 0% 100%, rgb(194 65 12 / 0.07), transparent 70%),
+      var(--surface);
+
+    @include up(lg) {
+      grid-template-columns: 1.1fr 0.9fr;
+      min-height: 440px;
+    }
+  }
+
+  &__content {
+    display: grid;
+    align-content: center;
+    gap: 1.25rem;
+    justify-items: start;
+    padding: clamp(2.25rem, 6vw, 4.5rem);
+
+    p {
+      font-size: clamp(1.0625rem, 1.3vw, 1.2rem);
+      color: var(--ink-2);
+      max-width: 44ch;
+    }
+
+    .btn-row {
+      margin-top: 0.75rem;
+    }
+  }
+
+  // Inset photo with its own concentric radius inside the core.
+  &__media {
+    position: relative;
+    overflow: hidden;
+    min-height: 260px;
+    margin: 0 var(--bezel) var(--bezel);
+    border-radius: calc(var(--radius-shell) - 2 * var(--bezel));
+    background: var(--night);
+
+    @include up(lg) {
+      margin: var(--bezel) var(--bezel) var(--bezel) 0;
+    }
+  }
+}

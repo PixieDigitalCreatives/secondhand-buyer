@@ -1,0 +1,159 @@
+.what-we-buy {
+  &__grid {
+    display: grid;
+    gap: 1.25rem;
+
+    @include up(lg) {
+      grid-template-columns: 1.3fr 1fr;
+    }
+  }
+
+  &__side {
+    display: grid;
+    gap: 1.25rem;
+  }
+}
+
+.buy-cluster {
+  &__core {
+    height: 100%;
+  }
+
+  &__media {
+    position: relative;
+    aspect-ratio: 16 / 7;
+    overflow: hidden;
+    margin: var(--bezel) var(--bezel) 0;
+    border-radius: calc(var(--radius-shell) - 2 * var(--bezel));
+
+    .parallax {
+      @include motion {
+        transition: transform 1.4s var(--ease-premium);
+      }
+    }
+  }
+
+  @include hover {
+    .buy-cluster__media .parallax {
+      transform: scale(1.03);
+    }
+  }
+
+  &__body {
+    display: grid;
+    gap: 1.25rem;
+    padding: clamp(1.25rem, 3vw, 2rem);
+  }
+
+  &__head {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+
+    .muted {
+      margin-top: 0.2rem;
+      font-size: 0.9375rem;
+    }
+  }
+
+  &__icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--surface-2);
+    color: var(--ink);
+  }
+
+  &--featured {
+    .buy-cluster__icon {
+      background: var(--accent);
+      color: var(--on-accent);
+    }
+  }
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+// Static label, deliberately quieter than the interactive .chip.
+.tag {
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.brands {
+  margin-top: clamp(3rem, 6vw, 4.5rem);
+
+  &__label {
+    margin-bottom: 1rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--ink-2);
+  }
+
+  &__viewport {
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  &__track {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 3rem;
+    padding-inline: var(--gutter);
+    width: max-content;
+    max-width: 100%;
+
+    li {
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      color: color-mix(in srgb, var(--ink) 30%, transparent);
+      white-space: nowrap;
+    }
+
+    // Copy is only needed for the looping animation.
+    li[aria-hidden='true'] {
+      display: none;
+    }
+
+    // Each item carries its own trailing space so -50% loops seamlessly.
+    @include motion {
+      flex-wrap: nowrap;
+      gap: 0;
+      max-width: none;
+      padding-inline: 0;
+      animation: brands-scroll 40s linear infinite;
+
+      li[aria-hidden='true'] {
+        display: list-item;
+      }
+
+      li {
+        padding-right: 3rem;
+      }
+    }
+  }
+
+  @include hover {
+    .brands__track {
+      animation-play-state: paused;
+    }
+  }
+}
+
+@keyframes brands-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}

@@ -1,0 +1,683 @@
+// ---------------------------------------------------------------------------
+// Design tokens: light "soft structural" theme (the site is light only).
+// One accent (ember orange) for every primary action. WhatsApp green is used
+// only on WhatsApp buttons, because people recognise it instantly.
+// Shape rule: buttons and chips are pills; cards sit in a 32px shell with a
+// 26px core (double bezel); inputs are 14px.
+// ---------------------------------------------------------------------------
+:root {
+  color-scheme: light;
+
+  --bg: #f4f5f7;
+  --surface: #fcfcfd;
+  --surface-2: #eceef1;
+  --ink: #0f1720;
+  --ink-2: #4a5561;
+  --ink-3: #5e6975;
+
+  // Hairlines are translucent so they sit naturally on any surface.
+  --line: rgb(15 23 32 / 0.08);
+  --line-2: rgb(15 23 32 / 0.14);
+  --shell: rgb(15 23 32 / 0.035);
+
+  --accent: #c2410c;
+  --accent-hover: #a5360a;
+  --accent-soft: #fdeee6;
+  --accent-ink: #9a3412;
+  --on-accent: #fff7f2;
+  // Brighter tint of the same hue, for text on photos and dark panels.
+  --accent-bright: #ff7a45;
+
+  --wa: #25d366;
+  --wa-hover: #1fbf5a;
+  --on-wa: #062511;
+
+  --danger: #b42318;
+  --success: #15803d;
+  --focus: #2563eb;
+
+  // Photo scrims and the odd dark panel.
+  --night: #0b1218;
+  --night-2: #131c25;
+  --on-night: #eef2f5;
+  --on-night-2: #b7c2cc;
+
+  // Soft, highly diffused shadows tinted to the ink colour.
+  --shadow-sm: 0 1px 2px rgb(15 23 32 / 0.04);
+  --shadow: 0 1px 1px rgb(15 23 32 / 0.03), 0 24px 48px -28px rgb(15 23 32 / 0.18);
+  --shadow-lg: 0 2px 2px rgb(15 23 32 / 0.02), 0 50px 100px -40px rgb(15 23 32 / 0.25);
+  --highlight: inset 0 1px 0 rgb(255 255 255 / 0.9);
+
+  --radius-sm: 14px;
+  --radius: 20px;
+  --radius-lg: 26px;
+  --radius-shell: 32px;
+  --bezel: 6px;
+  --radius-pill: 999px;
+
+  --ease-premium: cubic-bezier(0.32, 0.72, 0, 1);
+
+  --font: 'Geist Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Noto Sans', sans-serif;
+
+  --container: 1240px;
+  --gutter: clamp(1rem, 4vw, 2rem);
+  --header-h: 88px;
+  --mobile-bar-h: 0px;
+}
+
+@include down(md) {
+  :root {
+    --header-h: 76px;
+    --mobile-bar-h: 68px;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Reset + base
+// ---------------------------------------------------------------------------
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  // Lenis handles smooth scrolling; native smooth-scroll would fight it.
+  scroll-padding-top: calc(var(--header-h) + 24px);
+}
+
+body {
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 1rem;
+  line-height: 1.6;
+  font-feature-settings: 'ss01', 'cv11';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  // Leave room for the fixed mobile action bar.
+  padding-bottom: calc(var(--mobile-bar-h) + env(safe-area-inset-bottom));
+
+  @include up(md) {
+    padding-bottom: 0;
+  }
+}
+
+img,
+picture,
+svg,
+video,
+iframe {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+:focus-visible {
+  @include focus-ring;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: $z-menu + 1;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 600;
+  transform: translateY(-200%);
+
+  &:focus {
+    transform: none;
+  }
+}
+
+.sr-only {
+  @include visually-hidden;
+}
+
+// ---------------------------------------------------------------------------
+// Layout
+// ---------------------------------------------------------------------------
+.container {
+  width: min(100% - 2 * var(--gutter), var(--container));
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: clamp(5.5rem, 11vw, 9.5rem);
+
+  // A tinted band that floats inside the page instead of running edge to edge.
+  &--sunk {
+    background: var(--surface-2);
+    border-radius: clamp(28px, 4vw, 48px);
+    margin-inline: clamp(0.5rem, 1.5vw, 1.25rem);
+  }
+
+  &--flush-top {
+    padding-top: 0;
+  }
+}
+
+.section-head {
+  max-width: 46rem;
+  margin-bottom: clamp(3rem, 6vw, 4.5rem);
+
+  &--center {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .lead {
+    margin-top: 1.1rem;
+  }
+
+  &--center .lead {
+    margin-inline: auto;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Type
+// ---------------------------------------------------------------------------
+.display {
+  font-size: clamp(2.5rem, 5vw, 4.25rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+}
+
+.h1 {
+  font-size: clamp(2.25rem, 4.4vw, 3.6rem);
+  letter-spacing: -0.035em;
+}
+
+.h2 {
+  font-size: clamp(1.9rem, 3.4vw, 2.85rem);
+}
+
+.h3 {
+  font-size: clamp(1.25rem, 1.6vw, 1.4rem);
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.lead {
+  font-size: clamp(1.0625rem, 1.3vw, 1.2rem);
+  line-height: 1.55;
+  color: var(--ink-2);
+  max-width: 58ch;
+}
+
+.muted {
+  color: var(--ink-2);
+}
+
+// Microscopic pill badge above a few key headlines (used sparingly).
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  box-shadow:
+    0 0 0 1px var(--line),
+    var(--shadow-sm);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+// ---------------------------------------------------------------------------
+// Double bezel: a machined outer tray with a concentric inner core.
+// ---------------------------------------------------------------------------
+.bezel {
+  padding: var(--bezel);
+  border-radius: var(--radius-shell);
+  background: var(--shell);
+  box-shadow: 0 0 0 1px var(--line);
+
+  &__core {
+    border-radius: calc(var(--radius-shell) - var(--bezel));
+    background: var(--surface);
+    box-shadow:
+      var(--highlight),
+      var(--shadow);
+    overflow: hidden;
+  }
+}
+
+// Oversized image wrapper used by ParallaxPhoto.
+.parallax {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+
+  &__inner {
+    position: absolute;
+    inset: 0;
+    will-change: transform;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: $z-menu + 1;
+  height: 2px;
+  background: var(--accent);
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+
+.scroll-text {
+  &__word {
+    display: inline;
+  }
+}
+
+// Words rise out of their own clipped boxes. The padding/negative margin pair
+// keeps descenders (g, p, y) from being cut off by the mask.
+.mask-text {
+  &__mask {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding-bottom: 0.12em;
+    margin-bottom: -0.12em;
+  }
+
+  &__word {
+    display: inline-block;
+    will-change: transform;
+
+    &.is-accent {
+      color: var(--accent);
+    }
+  }
+}
+
+.magnetic {
+  display: inline-block;
+}
+
+.section-head__eyebrow {
+  margin-bottom: 1.25rem;
+}
+
+.text-accent {
+  color: var(--accent-ink);
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+// ---------------------------------------------------------------------------
+// Buttons
+// ---------------------------------------------------------------------------
+.btn {
+  --btn-h: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  height: var(--btn-h);
+  padding-inline: 1.4rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  transition:
+    background-color 0.4s var(--ease-premium),
+    border-color 0.4s var(--ease-premium),
+    color 0.4s var(--ease-premium),
+    box-shadow 0.5s var(--ease-premium),
+    transform 0.5s var(--ease-premium);
+
+  svg {
+    flex-shrink: 0;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &__arrow {
+    @include motion {
+      transition: transform 0.5s var(--ease-premium);
+    }
+  }
+
+  // Button-in-button: the trailing icon lives in its own circle, flush right.
+  &__orb {
+    display: grid;
+    place-items: center;
+    width: calc(var(--btn-h) - 12px);
+    height: calc(var(--btn-h) - 12px);
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.18);
+
+    @include motion {
+      transition: transform 0.5s var(--ease-premium);
+    }
+  }
+
+  @include hover {
+    .btn__arrow {
+      transform: translateX(3px);
+    }
+
+    .btn__orb {
+      transform: translate(2px, -1px) scale(1.06);
+    }
+  }
+
+  &--primary {
+    background: var(--accent);
+    color: var(--on-accent);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.18),
+      0 14px 30px -14px color-mix(in srgb, var(--accent) 75%, transparent);
+
+    @include hover {
+      background: var(--accent-hover);
+    }
+  }
+
+  &--wa {
+    background: var(--wa);
+    color: var(--on-wa);
+
+    @include hover {
+      background: var(--wa-hover);
+    }
+  }
+
+  &--wa .btn__orb {
+    background: rgb(6 37 17 / 0.1);
+  }
+
+  &--dark {
+    background: var(--ink);
+    color: var(--bg);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.12);
+
+    @include hover {
+      background: color-mix(in srgb, var(--ink) 86%, var(--bg));
+    }
+
+    .btn__orb {
+      background: rgb(255 255 255 / 0.12);
+    }
+  }
+
+  &--outline {
+    color: var(--ink);
+    background: var(--surface);
+    box-shadow:
+      0 0 0 1px var(--line-2),
+      var(--highlight),
+      var(--shadow-sm);
+
+    @include hover {
+      box-shadow:
+        0 0 0 1px var(--ink-3),
+        var(--highlight),
+        var(--shadow);
+    }
+
+    .btn__orb {
+      background: var(--surface-2);
+    }
+  }
+
+  // For use over photos and dark panels.
+  &--glass {
+    border-color: rgb(255 255 255 / 0.28);
+    background: rgb(255 255 255 / 0.08);
+    color: var(--on-night);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    @include hover {
+      background: rgb(255 255 255 / 0.16);
+      border-color: rgb(255 255 255 / 0.5);
+    }
+  }
+
+  &--sm {
+    --btn-h: 44px;
+    padding-inline: 1.1rem;
+    font-size: 0.9375rem;
+  }
+
+  &--lg {
+    --btn-h: 58px;
+    padding-inline: 1.75rem;
+    font-size: 1.0625rem;
+  }
+
+  &--block {
+    width: 100%;
+  }
+
+  // After the size modifiers so the flush-right orb padding always wins.
+  &--orb {
+    padding-right: 6px;
+    gap: 0.85rem;
+  }
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+// Round icon-only button. Lives here (not in a component file) so component
+// rules that hide it at certain breakpoints always win the cascade.
+.icon-btn {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-2);
+  background: var(--surface);
+  color: var(--ink);
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s $ease-out;
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &--accent {
+    border-color: transparent;
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+}
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+  text-underline-offset: 0.25em;
+  transition: text-decoration-color 0.2s ease;
+
+  @include hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Form controls (label above, error below)
+// ---------------------------------------------------------------------------
+.field {
+  display: grid;
+  gap: 0.5rem;
+
+  &__label {
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+
+  &__input {
+    height: 52px;
+    width: 100%;
+    padding-inline: 1rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line-2);
+    background: var(--surface);
+    color: var(--ink);
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+
+    &::placeholder {
+      color: var(--ink-3);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent);
+    }
+
+    &[aria-invalid='true'] {
+      border-color: var(--danger);
+    }
+  }
+
+  &__help {
+    font-size: 0.875rem;
+    color: var(--ink-2);
+  }
+
+  &__error {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--danger);
+  }
+}
+
+// Selectable pill used for single-choice questions.
+.chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 0.45rem 1rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-2);
+  background: var(--surface);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s $ease-out;
+
+  input {
+    @include visually-hidden;
+  }
+
+  &:has(input:focus-visible) {
+    @include focus-ring;
+  }
+
+  @include hover {
+    border-color: var(--ink-3);
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &.is-active {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+    font-weight: 600;
+  }
+}

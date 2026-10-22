@@ -1,0 +1,164 @@
+// Six systems as a 2-1-1 / 1-2-1 bento so no row repeats the one above it.
+.systems__grid {
+  display: grid;
+  gap: 1.25rem;
+
+  @include up(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include up(lg) {
+    grid-template-columns: repeat(4, 1fr);
+
+    > :nth-child(1),
+    > :nth-child(5) {
+      grid-column: span 2;
+    }
+  }
+}
+
+.system {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  min-height: 240px;
+  padding: clamp(1.4rem, 2.5vw, 2rem);
+  border-radius: var(--radius-lg);
+  outline: 1px solid var(--line);
+  outline-offset: -1px;
+  background: var(--surface);
+
+  > div {
+    margin-top: auto;
+  }
+
+  p {
+    margin-top: 0.5rem;
+    color: var(--ink-2);
+    max-width: 42ch;
+  }
+
+  &__icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: var(--surface-2);
+    color: var(--ink);
+  }
+
+  &__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &--photo {
+    border: 0;
+    background: var(--night);
+    color: var(--on-night);
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, rgb(11 18 24 / 0.35), rgb(11 18 24 / 0.9));
+    }
+
+    p {
+      color: var(--on-night-2);
+    }
+
+    .system__icon {
+      background: var(--accent);
+      color: var(--on-accent);
+    }
+  }
+
+  &--tint {
+    border-color: transparent;
+    background: var(--accent-soft);
+
+    .system__icon {
+      background: var(--surface);
+      color: var(--accent-ink);
+    }
+  }
+}
+
+.clearouts {
+  &__grid {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 5rem);
+    align-items: center;
+
+    @include up(lg) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  &__media {
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__copy {
+    display: grid;
+    gap: 2rem;
+
+    .section-head {
+      margin-bottom: 0;
+    }
+
+    .lead {
+      margin-top: 1rem;
+    }
+  }
+
+  &__sites {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 1.15rem;
+      border-radius: var(--radius);
+      background: var(--surface);
+      font-weight: 600;
+
+      svg {
+        color: var(--accent-ink);
+      }
+    }
+  }
+
+  &__also-label {
+    margin-bottom: 0.75rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--ink-2);
+  }
+}
+
+.tag--raised {
+  background: var(--surface);
+}

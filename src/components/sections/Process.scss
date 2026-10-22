@@ -1,0 +1,103 @@
+.process {
+  &__list {
+    position: relative;
+    display: grid;
+    gap: 2.25rem;
+
+    @include up(lg) {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  // Vertical on phones, horizontal through the icon centres on desktop.
+  // The faint track is always there; the accent line fills it on scroll.
+  &__track,
+  &__line {
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    left: 27px;
+    width: 2px;
+    border-radius: 2px;
+    transform-origin: 0 0;
+
+    @include up(lg) {
+      top: 27px;
+      bottom: auto;
+      left: 28px;
+      // Stop at the last icon: one column width (4 cols, 3 x 2rem gaps) minus its radius.
+      right: calc((100% - 6rem) / 4 - 28px);
+      width: auto;
+      height: 2px;
+    }
+  }
+
+  &__track {
+    background: var(--line-2);
+  }
+
+  &__line {
+    background: var(--accent);
+  }
+
+  &__step {
+    position: relative;
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    column-gap: 1.25rem;
+    row-gap: 0.4rem;
+
+    @include up(lg) {
+      grid-template-columns: 1fr;
+      row-gap: 0.75rem;
+      padding-right: 1rem;
+    }
+
+    .h3 {
+      grid-column: 2;
+      align-self: center;
+
+      @include up(lg) {
+        grid-column: 1;
+        margin-top: 0.75rem;
+      }
+    }
+
+    p {
+      grid-column: 2;
+      color: var(--ink-2);
+      max-width: 34ch;
+
+      @include up(lg) {
+        grid-column: 1;
+      }
+    }
+  }
+
+  &__icon {
+    grid-row: span 2;
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--surface);
+    color: var(--accent-ink);
+    box-shadow:
+      0 0 0 6px var(--bg),
+      0 0 0 7px var(--line),
+      var(--shadow);
+
+    @include up(lg) {
+      grid-row: auto;
+    }
+  }
+
+  &.section--sunk .process__icon {
+    box-shadow:
+      0 0 0 6px var(--surface-2),
+      0 0 0 7px var(--line),
+      var(--shadow);
+  }
+}

@@ -1,0 +1,242 @@
+// Floating "island" nav: a glass pill detached from the top edge.
+// Only the pill is blurred; the header itself stays filter-free so the fixed
+// mobile menu inside it is positioned against the viewport.
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: $z-header;
+  padding-top: 12px;
+  height: var(--header-h);
+  pointer-events: none;
+
+  &__bar {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    height: 64px;
+    padding: 0 8px 0 12px;
+    border-radius: var(--radius-pill);
+    background: rgb(252 252 253 / 0.72);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    box-shadow:
+      0 0 0 1px var(--line),
+      var(--highlight),
+      0 18px 40px -24px rgb(15 23 32 / 0.25);
+    pointer-events: auto;
+    transition: background-color 0.5s var(--ease-premium);
+
+    @include down(md) {
+      height: 56px;
+      padding-left: 8px;
+    }
+  }
+
+  &.is-open &__bar {
+    background: rgb(252 252 253 / 0.96);
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__call {
+    @include down(md) {
+      display: none;
+    }
+  }
+
+  &__call-icon {
+    @include up(md) {
+      display: none;
+    }
+  }
+
+  &__toggle {
+    @include up(lg) {
+      display: none;
+    }
+  }
+
+  .brand__mark {
+    border-radius: 50%;
+  }
+
+  // Tagline only where there is room for it next to the nav.
+  .brand__tagline {
+    @include up(lg) {
+      display: none;
+    }
+    @include up(xl) {
+      display: block;
+    }
+    @include down(sm) {
+      display: none;
+    }
+  }
+}
+
+.site-nav {
+  display: none;
+
+  @include up(lg) {
+    display: block;
+  }
+
+  ul {
+    display: flex;
+    align-items: center;
+    gap: 0.15rem;
+  }
+
+  &__link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    height: 40px;
+    padding-inline: 0.9rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--ink-2);
+    white-space: nowrap;
+    transition:
+      color 0.4s var(--ease-premium),
+      background-color 0.4s var(--ease-premium);
+
+    @include hover {
+      color: var(--ink);
+      background: rgb(15 23 32 / 0.05);
+    }
+
+    &.active {
+      color: var(--ink);
+      background: rgb(15 23 32 / 0.06);
+    }
+  }
+}
+
+// Two lines that rotate into a perfect X.
+.burger {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgb(15 23 32 / 0.05);
+  transition: background-color 0.4s var(--ease-premium);
+
+  &__line {
+    position: absolute;
+    left: 13px;
+    right: 13px;
+    height: 1.5px;
+    border-radius: 2px;
+    background: var(--ink);
+    transition:
+      transform 0.6s var(--ease-premium),
+      top 0.6s var(--ease-premium);
+
+    &:nth-child(1) {
+      top: 18px;
+    }
+
+    &:nth-child(2) {
+      top: 25px;
+    }
+  }
+
+  &[aria-expanded='true'] {
+    background: rgb(15 23 32 / 0.08);
+
+    .burger__line:nth-child(1) {
+      top: 21.25px;
+      transform: rotate(45deg);
+    }
+
+    .burger__line:nth-child(2) {
+      top: 21.25px;
+      transform: rotate(-45deg);
+    }
+  }
+}
+
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow-y: auto;
+  padding-top: calc(var(--header-h) + 1rem);
+  background: rgb(244 245 247 / 0.86);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  pointer-events: auto;
+
+  @include up(lg) {
+    display: none;
+  }
+
+  &__inner {
+    display: grid;
+    gap: 2rem;
+    padding-bottom: calc(2rem + var(--mobile-bar-h));
+  }
+
+  &__list {
+    display: grid;
+  }
+
+  // Each link rises out of its own invisible box.
+  &__mask {
+    overflow: hidden;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 0.85rem;
+    font-size: clamp(1.9rem, 8vw, 2.6rem);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    color: var(--ink-3);
+    transition: color 0.4s var(--ease-premium);
+
+    svg {
+      color: var(--ink-3);
+    }
+
+    &.active {
+      color: var(--ink);
+
+      svg {
+        color: var(--accent);
+      }
+    }
+  }
+
+  &__ctas {
+    display: grid;
+    gap: 0.75rem;
+
+    @include up(sm) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  &__address {
+    display: flex;
+    gap: 0.6rem;
+    color: var(--ink-2);
+    font-size: 0.9375rem;
+
+    svg {
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+  }
+}

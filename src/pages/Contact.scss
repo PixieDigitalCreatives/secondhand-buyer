@@ -1,0 +1,90 @@
+.contact {
+  padding-block: clamp(2.5rem, 6vw, 5rem);
+
+  &__grid {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 5rem);
+
+    @include up(lg) {
+      grid-template-columns: 1fr minmax(0, 470px);
+      align-items: start;
+    }
+  }
+
+  &__copy {
+    display: grid;
+    gap: 1.5rem;
+    justify-items: start;
+  }
+
+  &__phone {
+    display: grid;
+    gap: 0.35rem;
+    margin-top: 1rem;
+    padding: 1.4rem 1.6rem;
+    width: 100%;
+    max-width: 30rem;
+    border-radius: var(--radius-lg);
+    background: var(--accent);
+    color: var(--on-accent);
+    transition:
+      background-color 0.2s ease,
+      transform 0.2s $ease-out;
+
+    @include hover {
+      background: var(--accent-hover);
+    }
+
+    &:active {
+      transform: scale(0.99);
+    }
+  }
+
+  &__phone-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    opacity: 0.9;
+  }
+
+  &__phone-number {
+    font-size: clamp(1.9rem, 4.5vw, 2.75rem);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+  }
+
+  &__address {
+    display: flex;
+    gap: 0.85rem;
+    margin-top: 0.75rem;
+    color: var(--ink-2);
+
+    svg {
+      flex-shrink: 0;
+      margin-top: 2px;
+      color: var(--accent-ink);
+    }
+
+    address {
+      font-style: normal;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  &__map {
+    padding: var(--bezel);
+    border-radius: var(--radius-shell);
+    background: var(--shell);
+    box-shadow: 0 0 0 1px var(--line);
+
+    iframe {
+      width: 100%;
+      height: clamp(320px, 45vw, 480px);
+      border: 0;
+      border-radius: calc(var(--radius-shell) - var(--bezel));
+      background: var(--surface-2);
+    }
+  }
+}
